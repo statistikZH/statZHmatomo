@@ -17,13 +17,6 @@ The package currently contains only one function `read_matomo_data`.
 
 ## Installation
 
-released version of statZHmatomo from [CRAN](https://CRAN.R-project.org)
-with:
-
-``` r
-install.packages("statZHmatomo")
-```
-
 You can install the development version from
 [GitHub](https://github.com/) with:
 
