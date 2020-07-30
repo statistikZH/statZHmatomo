@@ -5,8 +5,8 @@
 \title{Read data from Matomo API}
 \usage{
 read_matomo_data(
-  apiModule = paste0("&apiModule=", apiModule),
-  apiAction = paste0("&apiAction=", apiAction),
+  apiModule = NULL,
+  apiAction = NULL,
   date = "yesterday",
   period = "day",
   format = "csv",

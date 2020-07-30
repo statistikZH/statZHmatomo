@@ -56,8 +56,8 @@ read_matomo_data <- function(
   # API Method List https://developer.matomo.org/api-reference/reporting-api#api-method-list
   # API Method can be added to function
 
-  apiModule = paste0("&apiModule=", apiModule),
-  apiAction = paste0("&apiAction=", apiAction),
+  apiModule = NULL,
+  apiAction = NULL,
 
   date = "yesterday",
   period = "day",
@@ -70,7 +70,7 @@ read_matomo_data <- function(
   # format: token = "&token_auth=YOUR_TOKEN"
   # DB example: managing credentials, best practices: https://db.rstudio.com/best-practices/managing-credentials/
 
-  token_auth = Sys.getenv("token")
+  token_auth = paste0("&token_auth=", Sys.getenv("token"))
 
   # combine apiModule and apiAction into method. useful as some methods require a modules and actions to be used separately in query
   method = paste0(apiModule, ".", apiAction)
@@ -104,6 +104,7 @@ read_matomo_data <- function(
 
   if (format == "csv") {
 
+    #print(query)
     utils::read.csv(query, encoding = "UTF-8", skipNul = TRUE, check.names = FALSE)
 
   } else if (format == "json") {
