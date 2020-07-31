@@ -104,16 +104,18 @@ read_matomo_data <- function(
 
   if (format == "csv") {
 
-    #print(query)
+    print(query)
     utils::read.csv(query, encoding = "UTF-8", skipNul = TRUE, check.names = FALSE)
 
   } else if (format == "json") {
 
+    print(query)
     jsonlite::fromJSON(txt = query)
 
 
   } else if (format == "xml") {
 
+    print(query)
     xml2::read_xml(query)
 
   } else {
