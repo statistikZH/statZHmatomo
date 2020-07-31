@@ -10,7 +10,8 @@ read_matomo_data(
   date = "yesterday",
   period = "day",
   format = "csv",
-  processed_report = FALSE
+  processed_report = FALSE,
+  idSubtable = NULL
 )
 }
 \arguments{
@@ -36,9 +37,12 @@ JSON}
 return a human readable version of any other report, and include the
 processed metrics such as conversion rate, time on site, etc. which are not
 directly available in other methods.}
+
+\item{idSubtable}{A numeric vector to identify a subtable. Only valid when
+processed_report = TRUE.}
 }
 \value{
-The output will be a dataframe of the selected format
+The output will be a data of the selected format
 }
 \description{
 \code{read_matomo_data} reads data from

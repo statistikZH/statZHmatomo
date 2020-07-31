@@ -34,8 +34,10 @@
 #'   return a human readable version of any other report, and include the
 #'   processed metrics such as conversion rate, time on site, etc. which are not
 #'   directly available in other methods.
+#' @param idSubtable A numeric vector to identify a subtable. Only valid when
+#' processed_report = TRUE.
 #'
-#' @return The output will be a dataframe of the selected format
+#' @return The output will be a data of the selected format
 #' @export
 #'
 #' @examples
