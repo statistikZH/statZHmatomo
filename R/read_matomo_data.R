@@ -87,16 +87,28 @@ read_matomo_data <- function(
   # set filter_limit to -1 to return all rows
   filter_limit = "&filter_limit=-1"
 
+  # set expanded to 1 as needed for Actions Module
+  expanded = "&expanded=1"
+
   # methods with different query
 
   if (processed_report == TRUE) {
 
     method = "&method=API.getProcessedReport"
     format = "json"
-    query <- paste0(url, module, method, idSite, paste0("&date=", date), paste0("&period=", period), paste0("&apiModule=", apiModule), paste0("&apiAction=", apiAction), paste0("&format=", format), token_auth)
+
+    query <- paste0(
+      url, module, method, idSite, paste0("&date=", date),
+      paste0("&period=", period), paste0("&apiModule=", apiModule),
+      paste0("&apiAction=", apiAction), paste0("&format=", format), token_auth
+    )
 
   } else {
-    query <- paste0(url, module, paste0("&method=", method), idSite, paste0("&date=", date), paste0("&period=", period), paste0("&format=", format), token_auth)
+    query <- paste0(
+      url, module, paste0("&method=", method),idSite,
+      paste0("&date=", date), paste0("&period=", period),
+      expanded, paste0("&format=", format), token_auth
+    )
   }
 
   # build query
@@ -104,19 +116,19 @@ read_matomo_data <- function(
 
   if (format == "csv") {
 
-    print(query)
+    #print(query)
     utils::read.csv(query, encoding = "UTF-8", skipNul = TRUE, check.names = FALSE)
 
   } else if (format == "json") {
 
-    print(query)
-    jsonlite::fromJSON(txt = query)
+    #print(query)
+    jsonlite::fromJSON(txt = url(query, open = "rb"))
 
 
   } else if (format == "xml") {
 
-    print(query)
-    xml2::read_xml(query)
+    #print(query)
+    xml2::read_xml(x = url(query, open = "rb"))
 
   } else {
 
