@@ -62,7 +62,8 @@ read_matomo_data <- function(
   date = "yesterday",
   period = "day",
   format = "csv",
-  processed_report = FALSE
+  processed_report = FALSE,
+  idSubtable = NULL
 
 ) {
 
@@ -100,7 +101,8 @@ read_matomo_data <- function(
     query <- paste0(
       url, module, method, idSite, paste0("&date=", date),
       paste0("&period=", period), paste0("&apiModule=", apiModule),
-      paste0("&apiAction=", apiAction), paste0("&format=", format), token_auth
+      paste0("&apiAction=", apiAction), paste0("&idSubtable=", idSubtable),
+      paste0("&format=", format), token_auth
     )
 
   } else {
