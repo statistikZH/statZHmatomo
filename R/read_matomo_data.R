@@ -149,22 +149,3 @@ read_matomo_data <- function(
 
   }
 }
-
-## test
-
-# library(magrittr)
-#
-# dat <- read_matomo_data(
-#   apiModule = "CustomDimensions",
-#   apiAction = "getCustomDimension",
-#   idDimension = 4,
-#   format = "json")
-#
-#
-# dat %>%
-#   tibble::as_tibble() %>%
-#   dplyr::select(subtable) %>%
-#   tidyr::unnest() %>% View()
-#   View()
-#
-
