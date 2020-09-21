@@ -19,6 +19,7 @@
 #'   \href{https://developer.matomo.org/api-reference/reporting-api#api-method-list}{Reporting
 #'    API Method List}
 #'
+#' @param idDimension A numeric vector of the Custom Dimension
 #'
 #' @param apiAction A character vector of an API Action for the selected API
 #'   Module
@@ -60,6 +61,12 @@ read_matomo_data <- function(
 
   apiModule = NULL,
   apiAction = NULL,
+
+  # Custom Dimensions
+
+  idDimension = NULL,
+
+  # Parameters
 
   date = "yesterday",
   period = "day",
@@ -103,13 +110,15 @@ read_matomo_data <- function(
     query <- paste0(
       url, module, method, idSite, paste0("&date=", date),
       paste0("&period=", period), paste0("&apiModule=", apiModule),
+      paste0("&idDimension=", idDimension),
       paste0("&apiAction=", apiAction), paste0("&idSubtable=", idSubtable),
       paste0("&format=", format), token_auth
     )
 
   } else {
     query <- paste0(
-      url, module, paste0("&method=", method),idSite,
+      url, module, paste0("&method=", method), idSite,
+      paste0("&idDimension=", idDimension),
       paste0("&date=", date), paste0("&period=", period),
       expanded, paste0("&format=", format), token_auth
     )
@@ -140,4 +149,22 @@ read_matomo_data <- function(
 
   }
 }
+
+## test
+
+# library(magrittr)
+#
+# dat <- read_matomo_data(
+#   apiModule = "CustomDimensions",
+#   apiAction = "getCustomDimension",
+#   idDimension = 4,
+#   format = "json")
+#
+#
+# dat %>%
+#   tibble::as_tibble() %>%
+#   dplyr::select(subtable) %>%
+#   tidyr::unnest() %>% View()
+#   View()
+#
 

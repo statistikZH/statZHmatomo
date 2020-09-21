@@ -7,6 +7,7 @@
 read_matomo_data(
   apiModule = NULL,
   apiAction = NULL,
+  idDimension = NULL,
   date = "yesterday",
   period = "day",
   format = "csv",
@@ -21,6 +22,8 @@ API Method List}}
 
 \item{apiAction}{A character vector of an API Action for the selected API
 Module}
+
+\item{idDimension}{A numeric vector of the Custom Dimension}
 
 \item{date}{A date in standard ISO 8601 format YYYY-MM-DD. Magic character
 vector keywords are "today" or "yesterday".}
