@@ -39,7 +39,6 @@
 #' processed_report = TRUE.
 #'@param pageUrl A character vector to identify the target url of a page. Only required for certain actions (documented in the Matomo API reference).
 #'@param pageTitle A character vector to identify the target title of a page. Only required for certain actions (documented in the Matomo API reference).
-#'@param idSite A numeric vector to identify the id of a site. Only required for certain actions (documented in the Matomo API reference).
 #'
 #' @return The output will be a data of the selected format
 #' @export
@@ -77,8 +76,7 @@ read_matomo_data <- function(
   processed_report = FALSE,
   idSubtable = NULL,
   pageUrl=NULL,
-  pageTitle=NULL,
-  idSite=NULL
+  pageTitle=NULL
 
 ) {
 
@@ -136,9 +134,7 @@ read_matomo_data <- function(
   if (!is.null(pageTitle)){
     query <- paste0(query,"&pageTitle=",pageTitle)
   }
-  if (!is.null(idSite)){
-    query <- paste0(query,"&idSite=",idSite)
-  }
+
 
   # build query
 
