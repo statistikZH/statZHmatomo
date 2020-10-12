@@ -1,0 +1,69 @@
+# header ------------------------------------------------------------------
+# Establish connection to Matomo API
+# Christian Ruiz
+# 2020-10-08
+# MIT License
+
+# Function description ----------------------------------------------------
+
+#' Set Connection to Matomo API
+#' @description \code{setMatomoServer} This command is required to set the specifications to connect to the server
+#' @param server A character vector specifying which server to access. Currently it supports
+#' the three possibilities openzh (the open data websites), webzh-dk (the data catalogue of webzh) and webzh (the websites of webzh). By default it will access webzh-dk if nothign was provided.
+#'
+#' @param tokenString A character vector specifying which token to access. It is a voluntary argument overriding the default strings. These are token_openzh, token_webzh-dk and token_webzh.
+#'
+#' @return The output is a connection object, that is actually a list object containing the three needed parameters to set up the connection..
+#' @export
+#'
+#' @examples
+#' conObj<-setMatomoServer(server="openzh")
+#'
+
+
+# Function ----------------------------------------------------------------
+
+setMatomoServer <- function(
+
+  # Which of the three servers (openzh,webzh-dk,webzh) shall be accessed?
+  server="webzh-dk",
+  # Is the token string to be overriden?
+  tokenString=NULL
+
+){
+  # use usethis::edit_r_environ to add tokens to .Renviron
+  # format: token = "&token_auth=YOUR_TOKEN"
+  # DB example: managing credentials, best practices: https://db.rstudio.com/best-practices/managing-credentials/
+
+  #If the tokenString is not overriden, then the default tokens are used.
+  if(is.null(tokenString)){
+    if (server == "openzh") {
+      token_auth = paste0("&token_auth=", Sys.getenv("token_openzh"))
+    }else if (server == "webzh-dk") {
+      token_auth = paste0("&token_auth=", Sys.getenv("token_webzh-dk"))
+    }else if (server == "webzh") {
+      token_auth = paste0("&token_auth=", Sys.getenv("token_webzh"))
+    } else {
+
+      stop("Please specify one of the three supported servers: openzh, webzh-dk or webzh")
+
+    }
+  }
+
+  #set the basic urls and the idSites according to the chosen server
+  if (server == "openzh") {
+    url="https://piwik.opendata.swiss"
+    idSite="&idSite=1"
+  }else if (server == "webzh-dk") {
+    url = "https://sa.abx-net.net/"
+    # id of the website: https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html
+    idSite = "&idSite=4"
+  }else if (server == "webzh") {
+    url=""
+    idSite=""
+  }
+
+  return(list=c(token_auth=token_auth,url=url,idSite=idSite))
+
+
+}

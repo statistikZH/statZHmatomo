@@ -2,7 +2,7 @@
 
 # Establish connection to Matomo API
 # Lars Schoebitz
-# 2020-07-13
+# 2020-07-13 - 2020-10-08
 # MIT License
 
 # Function description ----------------------------------------------------
@@ -38,14 +38,14 @@
 #'   directly available in other methods.
 #' @param idSubtable A numeric vector to identify a subtable. Only valid when
 #' processed_report = TRUE.
-#'@param pageUrl A character vector to identify the target url of a page. Only required for certain actions (documented in the Matomo API reference).
-#'@param pageTitle A character vector to identify the target title of a page. Only required for certain actions (documented in the Matomo API reference).
+#' @param pageUrl A character vector to identify the target url of a page. Only required for certain actions (documented in the Matomo API reference).
+#' @param pageTitle A character vector to identify the target title of a page. Only required for certain actions (documented in the Matomo API reference).
 #'
 #' @return The output will be a data of the selected format
 #' @export
 #'
 #' @examples
-#'
+#' conObj<-setMatomoServer()
 #' read_matomo_data(
 #' connection = conObj,
 #' apiModule = "Actions", apiAction = "getPageUrls"
@@ -55,66 +55,9 @@
 #' read_matomo_data()
 #' }
 #'
-#'#' @description \code{setMatomoServer} This command is required to set the specifications to connect to the server
-#'#' @param server A character vector specifying which server to access. Currently it supports
-#' the three possibilities openzh (the open data websites), webzh-dk (the data catalogue of webzh) and webzh (the websites of webzh). By default it will access webzh-dk if nothign was provided.
-#'
-#'@param tokenString A character vector specifying which token to access. It is a voluntary argument overriding the default strings. These are token_openzh, token_webzh-dk and token_webzh.
-#'
-#'#' @return The output is a connection object, that is actually a list object containing the three needed parameters to set up the connection..
-#' @export
-#'
-#' @examples
-#' #' conObj<-setMatomoServer(server="openzh")
-#'
+
 
 # Function ----------------------------------------------------------------
-
-setMatomoServer <- function(
-
-  # Which of the three servers (openzh,webzh-dk,webzh) shall be accessed?
-  server="webzh-dk",
-  # Is the token string to be overriden?
-  tokenString=NULL
-
-){
-  # use usethis::edit_r_environ to add tokens to .Renviron
-  # format: token = "&token_auth=YOUR_TOKEN"
-  # DB example: managing credentials, best practices: https://db.rstudio.com/best-practices/managing-credentials/
-
-  #If the tokenString is not overriden, then the default tokens are used.
-  if(is.null(tokenString)){
-    if (server == "openzh") {
-      token_auth = paste0("&token_auth=", Sys.getenv("token_openzh"))
-    }else if (server == "webzh-dk") {
-      token_auth = paste0("&token_auth=", Sys.getenv("token_webzh-dk"))
-    }else if (server == "webzh") {
-      token_auth = paste0("&token_auth=", Sys.getenv("token_webzh"))
-    } else {
-
-      stop("Please specify one of the three supported servers: openzh, webzh-dk or webzh")
-
-    }
-  }
-
-  #set the basic urls and the idSites according to the chosen server
-  if (server == "openzh") {
-    url="https://piwik.opendata.swiss"
-    idSite="&idSite=1"
-  }else if (server == "webzh-dk") {
-    url = "https://sa.abx-net.net/"
-    # id of the website: https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html
-    idSite = "&idSite=4"
-  }else if (server == "webzh") {
-    url=""
-    idSite=""
-  }
-
-  return(list=c(token_auth=token_auth,url=url,idSite=idSite))
-
-
-}
-
 
 read_matomo_data <- function(
 
