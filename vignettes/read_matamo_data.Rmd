@@ -2,7 +2,7 @@
 title: "Funktion read_matamo_data"
 output: rmarkdown::html_vignette
 vignette: >
-%\VignetteIndexEntry{read_matamo_data}
+  %\VignetteIndexEntry{read_matamo_data}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
   editor_options: 
