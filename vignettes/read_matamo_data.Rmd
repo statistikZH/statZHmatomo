@@ -1,0 +1,265 @@
+---
+title: "Funktion read_matamo_data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{read_matamo_data}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(statZHmatomo)
+library(magrittr)
+library(dplyr)
+library(tidyr)
+```
+
+# Allgemein
+
+Die Funktion `read_mamatomo_data.R` greift auf die [matomo Reporting API](https://developer.matomo.org/api-reference/reporting-api) zu. Derzeit wurden nur einige Module getestet, jedoch kann die Funktion theoretisch für alle Module genutzt werden. Die Funktion ist noch sehr experimentell und nicht voll durchgetestet. Diese Vignette soll einige Beispiele über die Funktionalität kurz erläutern und mit der Anzeige der Daten im [matomo Dashboard](https://sa.abx-net.net/index.php?module=CoreHome&action=index&idSite=4&period=day&date=yesterday&updated=1#?idSite=4&period=day&date=yesterday&category=Dashboard_Dashboard&subcategory=1) verglichen werden. 
+
+Eine weiter Übersicht der Module befindet sich auch im unter [Administration -> Plattform -> API](https://sa.abx-net.net/index.php?module=API&action=listAllAPI&idSite=1&period=day&date=yesterday).
+
+# Nutzung
+
+Die Funktion `read_matomo_data.R` braucht mindestens einen Wert für die Argumente `apiModule` und `apiAction`. Standardmässig sind folgende Argumente vorbestimmt:
+
+- `date` = "yesterday"
+- `period` = "day"
+- `format`= "csv"
+
+Weitere Auswahlmöglichkeiten können in der Help File nachgelesen werden: `?read_matomo_data.R`
+
+## Verhalten -> apiModule: Actions 
+
+Die Kategorie "Verhalten" im matomo Dashboard entspricht dem API module "Actions".
+
+### Seiten -> apiAction: getPageUrls
+
+Die Übersicht "Seiten" im matomo Dashboard entspricht der API action "getPageUrls"
+
+#### Gestern
+
+```{r}
+
+## Gestern
+
+read_matomo_data(apiModule = "Actions", apiAction = "getDownloads") %>% 
+  select(1:4) %>% 
+  janitor::clean_names() %>% 
+  knitr::kable()
+
+```
+
+#### Dieser Monat
+
+```{r}
+
+## Dieser Monat
+
+read_matomo_data(apiModule = "Actions", apiAction = "getPageUrls", date = "2020-09-15", period = "month") %>% 
+  select(1:4) %>% 
+  janitor::clean_names() %>% 
+  knitr::kable()
+
+
+```
+
+#### Letzter Monat
+
+```{r}
+
+## Dieser Monat
+
+read_matomo_data(apiModule = "Actions", apiAction = "getPageUrls", date = "2020-08-01", period = "month") %>% 
+  select(1:4) %>% 
+  janitor::clean_names() %>% 
+  knitr::kable()
+
+
+```
+
+#### Seit ZHWeb Launch
+
+```{r}
+
+## Dieser Monat
+
+read_matomo_data(apiModule = "Actions", apiAction = "getPageUrls", period = "year") %>% 
+  select(1:4) %>% 
+  janitor::clean_names() %>% 
+  knitr::kable()
+
+
+```
+
+#### Subtable (format = "json")
+
+Im JSON Format gibt die API auch die sogenannten "subtables" heraus. Neu ist hier die List-Column "subtable" in welcher nun Metriken für die einzelnen Datensätze im Datenkatalog zu finden sind.
+
+```{r}
+
+## Subtable
+
+getPage_json <- read_matomo_data(
+  apiModule = "Actions", apiAction = "getPageUrls", period = "year", format = "json", idSubtable = 3
+  )
+
+listviewer::jsonedit(getPage_json)
+
+
+```
+
+## CustomDimensions
+
+Das Seite hat insgesamt vier konfigurierte Custom Dimensions, welche sich im [Dashboard unter "Verhalten"](https://sa.abx-net.net/index.php?module=CoreHome&action=index&idSite=4&period=day&date=yesterday&updated=1#?idSite=4&period=day&date=yesterday&category=Dashboard_Dashboard&subcategory=1) befinden. 
+
+Für diese Custom Dimensions lassen sich einfach Reports erstellen.
+
+```{r}
+
+read_matomo_data(apiModule = "CustomDimensions", apiAction = "getConfiguredCustomDimensions", format = "json") %>% 
+  select(-extractions) %>% 
+  as_tibble() %>% 
+  knitr::kable()
+
+```
+
+### format 
+
+```{r}
+
+custom_dim_format <- read_matomo_data(
+  format = "json",
+  apiModule = "CustomDimensions", 
+  apiAction = "getCustomDimension", 
+  idDimension = 1
+) %>% 
+  as_tibble()
+
+listviewer::jsonedit(custom_dim_format)
+
+custom_dim_format %>% 
+  select(label, subtable) %>% 
+  unnest() %>% 
+  select(1:2, nb_visits, nb_hits) %>% 
+  DT::datatable()
+
+```
+
+### searchTerm 
+
+```{r}
+
+custom_dim_searchTerm <- read_matomo_data(
+  format = "json",
+  apiModule = "CustomDimensions", 
+  apiAction = "getCustomDimension", 
+  idDimension = 2
+) %>% 
+  as_tibble()
+
+custom_dim_searchTerm %>% 
+  select(label, subtable) %>% 
+  unnest() %>% 
+  select(1:2, nb_visits, nb_hits) %>% 
+  DT::datatable()
+
+```
+
+### topic
+
+```{r}
+
+custom_dim_topic <- read_matomo_data(
+  format = "json",
+  apiModule = "CustomDimensions", 
+  apiAction = "getCustomDimension", 
+  idDimension = 3
+) %>% 
+  as_tibble()
+
+custom_dim_topic %>% 
+  select(label, subtable) %>% 
+  unnest() %>% 
+  select(1:2, nb_visits, nb_hits) %>% 
+  DT::datatable()
+
+
+```
+
+### downloadUrl
+
+```{r}
+## Data
+
+custom_dim_downloadURL <- read_matomo_data(
+  format = "json",
+  apiModule = "CustomDimensions", 
+  apiAction = "getCustomDimension", 
+  idDimension = 4
+) %>% 
+  as_tibble()
+
+## Datatable
+
+custom_dim_downloadURL %>% 
+  select(label, subtable) %>% 
+  tidyr::unnest() %>% 
+  select(1:2, nb_visits, nb_hits) %>% 
+  DT::datatable()
+
+```
+
+## Processed report (API.getProcessedReport)
+
+Für die ausgewählte apiModule und apiAction wird ein kompletter Report mit jeglichen Variablen und dazugehörigem Vokabular zurückgegeben. Sehr nützlich für Dashboards.
+
+```{r}
+
+downloadUrl_processed_report <- read_matomo_data(
+  format = "json",
+  apiModule = "CustomDimensions", 
+  apiAction = "getCustomDimension", 
+  idDimension = 4, 
+  processed_report = TRUE 
+) 
+
+str(downloadUrl_processed_report)
+
+downloadUrl_processed_report$website
+downloadUrl_processed_report$prettyDate
+
+downloadUrl_processed_report$metadata$metricsDocumentation$nb_visits
+downloadUrl_processed_report$reportTotal
+
+
+```
+
+- nb_visits: `r downloadUrl_processed_report$metadata$metricsDocumentation$nb_visits`
+
+## Ziele -> apiModule: Goals
+
+```{r}
+
+read_matomo_data(apiModule = "Goals", apiAction = "getGoals")
+
+```
+
+## apiModule: Events
+
+```{r}
+
+read_matomo_data(apiModule = "Events", apiAction = "getAction")
+read_matomo_data(apiModule = "Events", apiAction = "getCategory")
+
+```
