@@ -2,7 +2,7 @@
 
 # Establish connection to Matomo API
 # Lars Schoebitz
-# 2020-07-13
+# 2020-07-13 - 2020-10-08
 # MIT License
 
 # Function description ----------------------------------------------------
@@ -14,6 +14,7 @@
 #'   Reporting HTTP API} for available methods.
 #'
 #'   A method is a combined API Module and API Action.
+#' @param connection A connection object created by the set_matomo_server() function.
 #'
 #' @param apiModule A character vector of an API Module from the
 #'   \href{https://developer.matomo.org/api-reference/reporting-api#api-method-list}{Reporting
@@ -37,16 +38,16 @@
 #'   directly available in other methods.
 #' @param idSubtable A numeric vector to identify a subtable. Only valid when
 #' processed_report = TRUE.
-#'@param pageUrl A character vector to identify the target url of a page. Only required for certain actions (documented in the Matomo API reference).
-#'@param pageTitle A character vector to identify the target title of a page. Only required for certain actions (documented in the Matomo API reference).
-#'@param idSite A numeric vector to identify the id of a site. Only required for certain actions (documented in the Matomo API reference).
+#' @param pageUrl A character vector to identify the target url of a page. Only required for certain actions (documented in the Matomo API reference).
+#' @param pageTitle A character vector to identify the target title of a page. Only required for certain actions (documented in the Matomo API reference).
 #'
 #' @return The output will be a data of the selected format
 #' @export
 #'
 #' @examples
-#'
+#' conObj<-set_matomo_server()
 #' read_matomo_data(
+#' connection = conObj,
 #' apiModule = "Actions", apiAction = "getPageUrls"
 #' )
 #'
@@ -55,9 +56,12 @@
 #' }
 #'
 
+
 # Function ----------------------------------------------------------------
 
 read_matomo_data <- function(
+
+  connection = NULL,
 
   # API Method List https://developer.matomo.org/api-reference/reporting-api#api-method-list
   # API Method can be added to function
@@ -77,28 +81,26 @@ read_matomo_data <- function(
   processed_report = FALSE,
   idSubtable = NULL,
   pageUrl=NULL,
-  pageTitle=NULL,
-  idSite=NULL
+  pageTitle=NULL
 
 ) {
+  if(is.null(connection)){
+    stop("Please run conObj<-set_matomo_server(server='openzh|webzh-dk|webzh') and create a connection object first to use as an argument like connection=conObj")
+  }
+  token_auth<-connection[["token_auth"]]
+  url<-connection[["url"]]
+  idSite<-connection[["idSite"]]
 
-  # use usethis::edit_r_environ to add token to .Renviron
-  # format: token = "&token_auth=YOUR_TOKEN"
-  # DB example: managing credentials, best practices: https://db.rstudio.com/best-practices/managing-credentials/
 
-  token_auth = paste0("&token_auth=", Sys.getenv("token"))
+
 
   # combine apiModule and apiAction into method. useful as some methods require a modules and actions to be used separately in query
   method = paste0(apiModule, ".", apiAction)
 
-  # basic URL
-  url = "https://sa.abx-net.net/"
 
   # standard module API
   module = "?module=API"
 
-  # id of the website: https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html
-  idSite = "&idSite=4"
 
   # set filter_limit to -1 to return all rows
   filter_limit = "&filter_limit=-1"
@@ -136,9 +138,7 @@ read_matomo_data <- function(
   if (!is.null(pageTitle)){
     query <- paste0(query,"&pageTitle=",pageTitle)
   }
-  if (!is.null(idSite)){
-    query <- paste0(query,"&idSite=",idSite)
-  }
+
 
   # build query
 

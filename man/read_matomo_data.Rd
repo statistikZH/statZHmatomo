@@ -5,6 +5,7 @@
 \title{Read data from Matomo API}
 \usage{
 read_matomo_data(
+  connection = NULL,
   apiModule = NULL,
   apiAction = NULL,
   idDimension = NULL,
@@ -12,10 +13,14 @@ read_matomo_data(
   period = "day",
   format = "csv",
   processed_report = FALSE,
-  idSubtable = NULL
+  idSubtable = NULL,
+  pageUrl = NULL,
+  pageTitle = NULL
 )
 }
 \arguments{
+\item{connection}{A connection object created by the set_matomo_server() function.}
+
 \item{apiModule}{A character vector of an API Module from the
 \href{https://developer.matomo.org/api-reference/reporting-api#api-method-list}{Reporting
 API Method List}}
@@ -43,6 +48,10 @@ directly available in other methods.}
 
 \item{idSubtable}{A numeric vector to identify a subtable. Only valid when
 processed_report = TRUE.}
+
+\item{pageUrl}{A character vector to identify the target url of a page. Only required for certain actions (documented in the Matomo API reference).}
+
+\item{pageTitle}{A character vector to identify the target title of a page. Only required for certain actions (documented in the Matomo API reference).}
 }
 \value{
 The output will be a data of the selected format
@@ -55,8 +64,9 @@ Reporting HTTP API} for available methods.
 A method is a combined API Module and API Action.
 }
 \examples{
-
+conObj<-set_matomo_server()
 read_matomo_data(
+connection = conObj,
 apiModule = "Actions", apiAction = "getPageUrls"
 )
 
