@@ -1,13 +1,18 @@
 Package: statZHmatomo
-Title: What the Package Does (One Line, Title Case)
+Title: Connect to Matomo Web Analytics Reporting API
 Version: 0.0.0.9000
 Authors@R: 
+    c(person(given = "Christian",
+           family = "Ruiz",
+           role = c("aut", "cre"),
+           email = "christian.ruiz@statistik.ji.zh.ch"),
     person(given = "Lars",
            family = "Schöbitz",
-           role = c("aut", "cre"),
-           email = "lars@lse.de",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+           role = c("aut"),
+           email = "lars.schoebitz@statistik.ji.zh.ch",
+           comment = c(ORCID = "0000-0003-2196-5015")))
+Description: The package connects allows the user to connect to one of three 
+    Matomo Web Analytics server and to dynamically query the Reporting API.
 License: MIT + file LICENSE
 Imports: 
   jsonlite, 
