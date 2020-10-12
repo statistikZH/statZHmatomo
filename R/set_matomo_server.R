@@ -1,29 +1,29 @@
 # header ------------------------------------------------------------------
 # Establish connection to Matomo API
 # Christian Ruiz
-# 2020-10-08
+# 2020-10-08 2020-10-12
 # MIT License
 
 # Function description ----------------------------------------------------
 
 #' Set Connection to Matomo API
-#' @description \code{setMatomoServer} This command is required to set the specifications to connect to the server
+#' @description \code{set_matomo_server} This command is required to set the specifications to connect to the server
 #' @param server A character vector specifying which server to access. Currently it supports
 #' the three possibilities openzh (the open data websites), webzh-dk (the data catalogue of webzh) and webzh (the websites of webzh). By default it will access webzh-dk if nothign was provided.
 #'
-#' @param tokenString A character vector specifying which token to access. It is a voluntary argument overriding the default strings. These are token_openzh, token_webzh-dk and token_webzh.
+#' @param tokenString A character vector specifying which token to access. It is an optional argument overriding the default strings. These are token_openzh, token_webzh-dk and token_webzh.
 #'
-#' @return The output is a connection object, that is actually a list object containing the three needed parameters to set up the connection..
+#' @return The output is a connection object, that is actually a list object containing the three needed parameters to set up the connection.
 #' @export
 #'
 #' @examples
-#' conObj<-setMatomoServer(server="openzh")
+#' conObj<-set_matomo_server(server="openzh")
 #'
 
 
 # Function ----------------------------------------------------------------
 
-setMatomoServer <- function(
+set_matomo_server <- function(
 
   # Which of the three servers (openzh,webzh-dk,webzh) shall be accessed?
   server="webzh-dk",
@@ -48,6 +48,8 @@ setMatomoServer <- function(
       stop("Please specify one of the three supported servers: openzh, webzh-dk or webzh")
 
     }
+  }else{
+    token_auth = paste0("&token_auth=", Sys.getenv(tokenString))
   }
 
   #set the basic urls and the idSites according to the chosen server

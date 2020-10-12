@@ -19,7 +19,7 @@ read_matomo_data(
 )
 }
 \arguments{
-\item{connection}{A connection object created by the setMatomoServer() function.}
+\item{connection}{A connection object created by the set_matomo_server() function.}
 
 \item{apiModule}{A character vector of an API Module from the
 \href{https://developer.matomo.org/api-reference/reporting-api#api-method-list}{Reporting
@@ -64,7 +64,7 @@ Reporting HTTP API} for available methods.
 A method is a combined API Module and API Action.
 }
 \examples{
-conObj<-setMatomoServer()
+conObj<-set_matomo_server()
 read_matomo_data(
 connection = conObj,
 apiModule = "Actions", apiAction = "getPageUrls"

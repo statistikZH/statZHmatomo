@@ -14,7 +14,7 @@
 #'   Reporting HTTP API} for available methods.
 #'
 #'   A method is a combined API Module and API Action.
-#' @param connection A connection object created by the setMatomoServer() function.
+#' @param connection A connection object created by the set_matomo_server() function.
 #'
 #' @param apiModule A character vector of an API Module from the
 #'   \href{https://developer.matomo.org/api-reference/reporting-api#api-method-list}{Reporting
@@ -45,7 +45,7 @@
 #' @export
 #'
 #' @examples
-#' conObj<-setMatomoServer()
+#' conObj<-set_matomo_server()
 #' read_matomo_data(
 #' connection = conObj,
 #' apiModule = "Actions", apiAction = "getPageUrls"
@@ -85,7 +85,7 @@ read_matomo_data <- function(
 
 ) {
   if(is.null(connection)){
-    stop("Please run conObj<-setMatomoServer(server='openzh|webzh-dk|webzh') and create a connection object first to use as an argument like connection=conObj")
+    stop("Please run conObj<-set_matomo_server(server='openzh|webzh-dk|webzh') and create a connection object first to use as an argument like connection=conObj")
   }
   token_auth<-connection[["token_auth"]]
   url<-connection[["url"]]
