@@ -2,10 +2,10 @@
 title: "Funktion read_matamo_data"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{read_matamo_data}
+%\VignetteIndexEntry{read_matamo_data}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
+  editor_options: 
   chunk_output_type: console
 ---
 
@@ -31,13 +31,29 @@ Eine weiter Übersicht der Module befindet sich auch im unter [Administration ->
 
 # Nutzung
 
-Die Funktion `read_matomo_data.R` braucht mindestens einen Wert für die Argumente `apiModule` und `apiAction`. Standardmässig sind folgende Argumente vorbestimmt:
+Die Funktion `read_matomo_data.R` braucht mindestens einen Wert für die Argumente `connection`, `apiModule` und `apiAction`. Standardmässig sind folgende Argumente vorbestimmt:
 
 - `date` = "yesterday"
 - `period` = "day"
 - `format`= "csv"
 
 Weitere Auswahlmöglichkeiten können in der Help File nachgelesen werden: `?read_matomo_data.R`
+
+## Argument: connection
+
+Um `read_matomo_data.R` zu nutzen, muss mittels der Funktion `set_matomot_server.R` die Verbindung zu einem der drei Matomo Server gesetzt werden:
+
+- Matomo von opendata.swiss: `openzh`
+- Matomo von ZHWeb Daten- und Publikationskatalog: `webzh-dk`
+- Matomo von ZHWeb Allgemein: `webzh`
+
+```{r}
+
+con_obj <- set_matomo_server(server = "webzh-dk")
+
+```
+
+Das Objekt `con_obj` wird dann als erstes Argument in `read_matomo_data.R` genutzt. Siehe unten.
 
 ## Verhalten -> apiModule: Actions 
 
@@ -53,7 +69,7 @@ Die Übersicht "Seiten" im matomo Dashboard entspricht der API action "getPageUr
 
 ## Gestern
 
-read_matomo_data(apiModule = "Actions", apiAction = "getDownloads") %>% 
+read_matomo_data(connection = con_obj, apiModule = "Actions", apiAction = "getDownloads") %>% 
   select(1:4) %>% 
   janitor::clean_names() %>% 
   knitr::kable()
@@ -66,7 +82,7 @@ read_matomo_data(apiModule = "Actions", apiAction = "getDownloads") %>%
 
 ## Dieser Monat
 
-read_matomo_data(apiModule = "Actions", apiAction = "getPageUrls", date = "2020-09-15", period = "month") %>% 
+read_matomo_data(connection = con_obj, apiModule = "Actions", apiAction = "getPageUrls", date = "2020-09-15", period = "month") %>% 
   select(1:4) %>% 
   janitor::clean_names() %>% 
   knitr::kable()
@@ -80,7 +96,11 @@ read_matomo_data(apiModule = "Actions", apiAction = "getPageUrls", date = "2020-
 
 ## Dieser Monat
 
-read_matomo_data(apiModule = "Actions", apiAction = "getPageUrls", date = "2020-08-01", period = "month") %>% 
+read_matomo_data(connection = con_obj, 
+                 apiModule = "Actions", 
+                 apiAction = "getPageUrls", 
+                 date = "2020-08-01", 
+                 period = "month") %>% 
   select(1:4) %>% 
   janitor::clean_names() %>% 
   knitr::kable()
@@ -94,7 +114,10 @@ read_matomo_data(apiModule = "Actions", apiAction = "getPageUrls", date = "2020-
 
 ## Dieser Monat
 
-read_matomo_data(apiModule = "Actions", apiAction = "getPageUrls", period = "year") %>% 
+read_matomo_data(connection = con_obj, 
+                 apiModule = "Actions", 
+                 apiAction = "getPageUrls", 
+                 period = "year") %>% 
   select(1:4) %>% 
   janitor::clean_names() %>% 
   knitr::kable()
@@ -110,12 +133,14 @@ Im JSON Format gibt die API auch die sogenannten "subtables" heraus. Neu ist hie
 
 ## Subtable
 
-getPage_json <- read_matomo_data(
-  apiModule = "Actions", apiAction = "getPageUrls", period = "year", format = "json", idSubtable = 3
-  )
+getPage_json <- read_matomo_data(connection = con_obj,
+                                 apiModule = "Actions", 
+                                 apiAction = "getPageUrls", 
+                                 period = "year", 
+                                 format = "json", 
+                                 idSubtable = 3)
 
 listviewer::jsonedit(getPage_json)
-
 
 ```
 
@@ -127,7 +152,10 @@ Für diese Custom Dimensions lassen sich einfach Reports erstellen.
 
 ```{r}
 
-read_matomo_data(apiModule = "CustomDimensions", apiAction = "getConfiguredCustomDimensions", format = "json") %>% 
+read_matomo_data(connection = con_obj,
+                 apiModule = "CustomDimensions", 
+                 apiAction = "getConfiguredCustomDimensions", 
+                 format = "json") %>% 
   select(-extractions) %>% 
   as_tibble() %>% 
   knitr::kable()
@@ -138,15 +166,12 @@ read_matomo_data(apiModule = "CustomDimensions", apiAction = "getConfiguredCusto
 
 ```{r}
 
-custom_dim_format <- read_matomo_data(
-  format = "json",
-  apiModule = "CustomDimensions", 
-  apiAction = "getCustomDimension", 
-  idDimension = 1
-) %>% 
+custom_dim_format <- read_matomo_data(connection = con_obj,
+                                      format = "json",
+                                      apiModule = "CustomDimensions", 
+                                      apiAction = "getCustomDimension", 
+                                      idDimension = 1) %>% 
   as_tibble()
-
-listviewer::jsonedit(custom_dim_format)
 
 custom_dim_format %>% 
   select(label, subtable) %>% 
@@ -160,12 +185,11 @@ custom_dim_format %>%
 
 ```{r}
 
-custom_dim_searchTerm <- read_matomo_data(
-  format = "json",
-  apiModule = "CustomDimensions", 
-  apiAction = "getCustomDimension", 
-  idDimension = 2
-) %>% 
+custom_dim_searchTerm <- read_matomo_data(connection = con_obj,
+                                          format = "json",
+                                          apiModule = "CustomDimensions", 
+                                          apiAction = "getCustomDimension", 
+                                          idDimension = 2) %>% 
   as_tibble()
 
 custom_dim_searchTerm %>% 
@@ -180,12 +204,11 @@ custom_dim_searchTerm %>%
 
 ```{r}
 
-custom_dim_topic <- read_matomo_data(
-  format = "json",
-  apiModule = "CustomDimensions", 
-  apiAction = "getCustomDimension", 
-  idDimension = 3
-) %>% 
+custom_dim_topic <- read_matomo_data(connection = con_obj,
+                                     format = "json",
+                                     apiModule = "CustomDimensions", 
+                                     apiAction = "getCustomDimension", 
+                                     idDimension = 3) %>% 
   as_tibble()
 
 custom_dim_topic %>% 
@@ -202,12 +225,11 @@ custom_dim_topic %>%
 ```{r}
 ## Data
 
-custom_dim_downloadURL <- read_matomo_data(
-  format = "json",
-  apiModule = "CustomDimensions", 
-  apiAction = "getCustomDimension", 
-  idDimension = 4
-) %>% 
+custom_dim_downloadURL <- read_matomo_data(connection = con_obj,
+                                           format = "json",
+                                           apiModule = "CustomDimensions", 
+                                           apiAction = "getCustomDimension", 
+                                           idDimension = 4) %>% 
   as_tibble()
 
 ## Datatable
@@ -226,40 +248,19 @@ Für die ausgewählte apiModule und apiAction wird ein kompletter Report mit jeg
 
 ```{r}
 
-downloadUrl_processed_report <- read_matomo_data(
-  format = "json",
-  apiModule = "CustomDimensions", 
-  apiAction = "getCustomDimension", 
-  idDimension = 4, 
-  processed_report = TRUE 
+downloadUrl_processed_report <- read_matomo_data(connection = con_obj,
+                                                 format = "json",
+                                                 apiModule = "CustomDimensions", 
+                                                 apiAction = "getCustomDimension", 
+                                                 idDimension = 4, 
+                                                 processed_report = TRUE 
 ) 
 
-str(downloadUrl_processed_report)
 
 downloadUrl_processed_report$website
 downloadUrl_processed_report$prettyDate
-
 downloadUrl_processed_report$metadata$metricsDocumentation$nb_visits
-downloadUrl_processed_report$reportTotal
-
 
 ```
 
 - nb_visits: `r downloadUrl_processed_report$metadata$metricsDocumentation$nb_visits`
-
-## Ziele -> apiModule: Goals
-
-```{r}
-
-read_matomo_data(apiModule = "Goals", apiAction = "getGoals")
-
-```
-
-## apiModule: Events
-
-```{r}
-
-read_matomo_data(apiModule = "Events", apiAction = "getAction")
-read_matomo_data(apiModule = "Events", apiAction = "getCategory")
-
-```
