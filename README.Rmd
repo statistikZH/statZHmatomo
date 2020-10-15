@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 The goal of statZHmatomo is to provide functions for easy access to the ZHWeb Matomo Reporting API. Web Analystics data is available for the [Daten- und Publikationskatalog](https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/home) which is maintained by Statistisches Amt Kanton Zürich. 
 
-The package currently contains only one function `read_matomo_data`.
+The package currently contains two function: `read_matomo_data` and `set_matomo_server`.
 
 ## Installation
 
