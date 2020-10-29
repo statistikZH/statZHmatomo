@@ -118,7 +118,7 @@ read_matomo_data <- function(
     query <- paste0(
       url, module, method, idSite, paste0("&date=", date),
       paste0("&period=", period), paste0("&apiModule=", apiModule),
-      paste0("&idDimension=", idDimension),
+      paste0("&idDimension=", idDimension), filter_limit,
       paste0("&apiAction=", apiAction), paste0("&idSubtable=", idSubtable),
       paste0("&format=", format), token_auth
     )
@@ -126,7 +126,7 @@ read_matomo_data <- function(
   } else {
     query <- paste0(
       url, module, paste0("&method=", method), idSite,
-      paste0("&idDimension=", idDimension),
+      paste0("&idDimension=", idDimension), filter_limit,
       paste0("&date=", date), paste0("&period=", period),
       expanded, paste0("&format=", format), token_auth
     )
