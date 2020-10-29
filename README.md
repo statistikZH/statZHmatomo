@@ -29,7 +29,8 @@ Follow these steps:
 3.  Select box “repo”
 4.  Click “Generate token”
 5.  Copy token to clipboard
-6.  Call: `usethis::edit_r_environ`
+6.  Call: `usethis::edit_r_environ()` in Console
+7.  Save copied token on new line as GITHUB_PAT = "YOUR_TOKEN"
 7.  Save the .Renviron file
 8.  Restart R via “Session -\> Restart R” or “Ctrl / Cmd + Shift +
     Enter”
@@ -56,7 +57,7 @@ function `read_matomo_data` can be used. The token is then called via
 
 1.  If not already installed, call `install.packages("usethis")`.
 2.  Call `usethis::edit_r_environ`
-3.  Add your token on new line as “token = ‘YOUR\_TOKEN’”
+3.  Add your token on new line as “token = "YOUR_TOKEN”
 4.  Save the .Renviron file
 5.  Restart R via “Session -\> Restart R” or “Ctrl / Cmd + Shift +
     Enter”
@@ -73,7 +74,13 @@ library(magrittr)
 
 ## basic example code
 
-dat <- read_matomo_data(apiModule = "Actions", apiAction = "getPageUrls") 
+con_webzhdk <- set_matomo_server(server = "webzh-dk")
+
+dat <- read_matomo_data(connection = con_webzhdk,
+        apiModule = "Actions", 
+        apiAction = "getPageUrls"
+        )
+        
 
 dat %>% 
   tibble::as_tibble() %>% 
