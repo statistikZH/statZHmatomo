@@ -1,14 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# statZHmatomo - R Package to access Web Analytics of Matomo Analyrtics
+# statZHmatomo - R Package to access Web Analytics of Matomo Analytics
 
 <!-- badges: start -->
 
 <!-- badges: end -->
 
-The goal of {statZHmatomo} is to provide functions for easy access to
-the [Matomo Reporting
+The goal of {statZHmatomo} is to provide functions for access to the
+[Matomo Reporting
 API](https://developer.matomo.org/api-reference/reporting-api).
 
 Currently, the package supports:
