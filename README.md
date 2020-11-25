@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+![](man/figures/kt_zh.png)
+
 # statZHmatomo
 
 <!-- badges: start -->
@@ -8,6 +10,8 @@
 [![Lifecycle:
 experimental](man/figures/lifecycle-experimental.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
+
+## Project description
 
 The goal of {statZHmatomo} is to provide functions for access to the
 [Matomo Reporting
@@ -22,6 +26,31 @@ Currently, the package supports:
 
 The package currently contains two function: `read_matomo_data` and
 `set_matomo_server`.
+
+## Prerequisites
+
+Your Matomo API Token needs to be added to the `.Renviron` file before
+the function `read_matomo_data()` can be used. The token is then called
+via `Sys.getenv("token")`.
+
+To add your token, follow these steps:
+
+1.  If not already installed, call `install.packages("usethis")`.
+
+2.  Call `usethis::edit_r_environ()`
+
+3.  Add each of your tokens on a new line with the following names:
+    
+    \# ZHweb Datenkataliog Matomo token token\_webzh-dk = “YOUR\_TOKEN”
+    
+    \# opendata.swiss Matomo token token\_openzh = “YOUR\_TOKEN”
+    
+    \# ZHWeb Token token\_webzh = “YOUR\_TOKEN”
+
+4.  Save the .Renviron file
+
+5.  Restart R via “Session -\> Restart R” or “Ctrl / Cmd + Shift +
+    Enter”
 
 ## Installation
 
@@ -77,31 +106,6 @@ or in the official [GitHub
 documentation](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
 on how to create a personal access token.
 
-## Prerequisites
-
-Your Matomo API Token needs to be added to the .Renviron file before the
-function `read_matomo_data` can be used. The token is then called via
-`Sys.getenv("token")`.
-
-To add your token, follow these steps:
-
-1.  If not already installed, call `install.packages("usethis")`.
-
-2.  Call `usethis::edit_r_environ()`
-
-3.  Add each of your tokens on a new line with the following names:
-    
-    \# ZHweb Datenkataliog Matomo token token\_webzh-dk = “YOUR\_TOKEN”
-    
-    \# opendata.swiss Matomo token token\_openzh = “YOUR\_TOKEN”
-    
-    \# ZHWeb Token token\_webzh = “YOUR\_TOKEN”
-
-4.  Save the .Renviron file
-
-5.  Restart R via “Session -\> Restart R” or “Ctrl / Cmd + Shift +
-    Enter”
-
 ## Example
 
 This is a basic example using the API module ‘Action’ and the API action
@@ -136,3 +140,31 @@ dat %>%
 | data   |         17 |       21 |             1551 |                           6 |                               21 |                 0.005 |                 0.495 |
 | de     |         11 |       13 |              514 |                           6 |                               13 |                 0.001 |                 0.218 |
 | ogd    |          3 |        3 |                0 |                           2 |                                3 |                 0.193 |                 1.499 |
+
+## Contributors
+
+  - \[@ruizcpr\](<https://github.com/ruizcrp>)
+  - \[@larnsce\](<https://github.com/larnsce>)
+
+## Contact
+
+Christian Ruiz  
+<christian.ruiz@statistik.ji.zh.ch>  
+\+41 (0)43 259 7500
+
+## License
+
+[Copyright (c) \<2019\>
+<Statistisches Amt Kanton Zürich>](https://github.com/statistikZH/STAT_Schablone/blob/master/LICENSE_code)
+
+## Richtlinien für Beiträge
+
+Wir begrüßen Beiträge. Bitte lesen Sie unsere
+[CONTRIBUTING.md](https://github.com/statistikZH/STAT_Schablone/blob/master/CONTRIBUTING.md)
+Datei, wenn sie daran interessiert sind. Hier finden Sie Informationen
+die zeigen wie Sie beitragen können.
+
+Bitte beachten Sie, dass dieses Projekt mit einem
+[Verhaltenskodex](https://github.com/statistikZH/STAT_Schablone/blob/master/CodeOfConduct.md)
+veröffentlicht wird. Mit Ihrer Teilnahme an diesem Projekt erklären Sie
+sich mit dessen Bedingungen einverstanden.
