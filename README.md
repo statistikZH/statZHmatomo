@@ -143,8 +143,8 @@ dat %>%
 
 ## Contributors
 
-  - \[@ruizcpr\](<https://github.com/ruizcrp>)
-  - \[@larnsce\](<https://github.com/larnsce>)
+  - [ruizcpr](https://github.com/ruizcrp)
+  - [larnsce](https://github.com/larnsce)
 
 ## Contact
 
