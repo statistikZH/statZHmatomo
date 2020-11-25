@@ -14,11 +14,12 @@ knitr::opts_chunk$set(
   collapse = TRUE, 
   message = FALSE,
   warning = FALSE,
+  eval = FALSE,
   comment = "#>"
 )
 ```
 
-```{r setup}
+```{r setup, eval=TRUE}
 library(statZHmatomo)
 library(magrittr)
 library(dplyr)
@@ -67,7 +68,7 @@ Die Übersicht "Seiten (EN: Pages)" im matomo Dashboard entspricht der API actio
 
 #### Gestern
 
-```{r, echo=TRUE, eval=FALSE}
+```{r, echo=TRUE}
 ## Argument date muss nicht gesetzt werden, da "yesterday" bereits vorbestimmt ist
 read_matomo_data(connection = con_obj, apiModule = "Actions", apiAction = "getDownloads") %>% 
   select(1:4) %>% 
@@ -75,7 +76,7 @@ read_matomo_data(connection = con_obj, apiModule = "Actions", apiAction = "getDo
   knitr::kable()
 ```
 
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=FALSE}
 ## Gestern
 read_matomo_data(connection = con_obj, 
                  apiModule = "Actions", 
@@ -87,7 +88,7 @@ read_matomo_data(connection = con_obj,
 
 #### Dieser Monat
 
-```{r, echo=TRUE, eval=FALSE}
+```{r, echo=TRUE}
 ## Tag auf aktuellen Tag setzen
 date_this_month <- Sys.Date()
 
