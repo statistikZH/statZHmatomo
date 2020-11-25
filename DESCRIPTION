@@ -15,9 +15,10 @@ Description: The package allows the users to connect to one of three
     Matomo Web Analytics server and to dynamically query the Reporting API.
 License: MIT + file LICENSE
 Imports: 
-  jsonlite, 
-  xml2,
-  utils
+    jsonlite,
+    xml2,
+    utils,
+    lifecycle
 Depends: R (>= 4.0.0)
 Encoding: UTF-8
 LazyData: true
@@ -29,3 +30,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+RdMacros: lifecycle
