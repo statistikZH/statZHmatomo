@@ -65,7 +65,7 @@ To add your token, follow these steps:
 
 2.  Execute `usethis::edit_r_environ()` in R Console.
 
-3.  Replace YOUR\_TOKEN with your token. One line per token and with the
+3.  Replace YOUR\_TOKEN with your token. One line per token the
     following names:
     
     \# ZHweb Datenkataliog Matomo token  

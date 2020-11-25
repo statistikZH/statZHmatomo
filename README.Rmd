@@ -66,13 +66,13 @@ To add your token, follow these steps:
 
 1. Install R Package {usethis} by executing `install.packages("usethis")` in R Console.
 2. Execute `usethis::edit_r_environ()` in R Console.
-3. Replace YOUR_TOKEN with your token. One line per token and with the following names: 
+3. Replace YOUR_TOKEN with your token. One line per token the following names: 
     
     # ZHweb Datenkataliog Matomo token  
-    token_webzh-dk = "YOUR_TOKEN"  
+    token_webzh-dk = "YOUR_TOKEN"
     
     # opendata.swiss Matomo token  
-    token_openzh = "YOUR_TOKEN"  
+    token_openzh = "YOUR_TOKEN"
     
     # ZHWeb Token  
     token_webzh = "YOUR_TOKEN"
