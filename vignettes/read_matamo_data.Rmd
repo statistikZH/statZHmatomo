@@ -195,7 +195,6 @@ getPage_json <- read_matomo_data(connection = con_obj,
                                  format = "json", 
                                  idSubtable = 3)
 
-listviewer::jsonedit(getPage_json)
 
 ```
 
