@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Lifecycle:
+experimental](man/figures/lifecycle-experimental.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
 The goal of {statZHmatomo} is to provide functions for access to the
@@ -129,10 +131,8 @@ dat %>%
 
 | label  | nb\_visits | nb\_hits | sum\_time\_spent | nb\_hits\_following\_search | nb\_hits\_with\_time\_generation | min\_time\_generation | max\_time\_generation |
 | :----- | ---------: | -------: | ---------------: | --------------------------: | -------------------------------: | --------------------: | --------------------: |
-| openZH |        502 |      605 |            51014 |                         507 |                              573 |                 0.001 |                 4.322 |
-| search |         53 |       79 |             2945 |                          24 |                               79 |                 0.001 |                 3.156 |
-| de     |         18 |       25 |              653 |                          10 |                               25 |                 0.004 |                 0.111 |
-| ogd    |         14 |       22 |             1176 |                           5 |                               21 |                 0.019 |                 0.438 |
-| data   |          7 |        8 |              747 |                           2 |                                7 |                 0.005 |                 0.679 |
-| awel   |          1 |        1 |                0 |                          NA |                                1 |                 0.012 |                 0.012 |
-| record |          1 |        1 |             1410 |                           1 |                                1 |                 0.172 |                 0.172 |
+| openZH |        220 |      253 |            26957 |                         221 |                              241 |                 0.001 |                 9.455 |
+| search |         35 |       48 |             3384 |                          15 |                               48 |                 0.007 |                 2.183 |
+| data   |         17 |       21 |             1551 |                           6 |                               21 |                 0.005 |                 0.495 |
+| de     |         11 |       13 |              514 |                           6 |                               13 |                 0.001 |                 0.218 |
+| ogd    |          3 |        3 |                0 |                           2 |                                3 |                 0.193 |                 1.499 |
