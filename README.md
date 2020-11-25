@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# statZHmatomo - R Package to access Web Analytics of Matomo Analytics
+# statZHmatomo
 
 <!-- badges: start -->
 
