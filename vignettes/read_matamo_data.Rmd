@@ -132,9 +132,7 @@ read_matomo_data(connection = con_obj,
                  apiAction = "getPageUrls", 
                  date = date_last_month, 
                  period = "month") %>% 
-  select(1:4) %>% 
-  janitor::clean_names() %>% 
-  knitr::kable()
+  select(1:4) 
 ```
 
 ```{r, echo=FALSE}

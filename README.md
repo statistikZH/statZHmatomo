@@ -24,59 +24,10 @@ Currently, the package supports:
   - ZHWeb [zh.ch](https://www.zh.ch/de.html)
   - Portal [opendata.swiss](https://opendata.swiss/de/)
 
-The package currently contains two function: `read_matomo_data` and
-`set_matomo_server`.
-
-## Prerequisites
-
-Your Matomo API Token needs to be added to the `.Renviron` file before
-the function `read_matomo_data()` can be used. The token is then called
-via `Sys.getenv("token")`.
-
-To add your token, follow these steps:
-
-1.  If not already installed, call `install.packages("usethis")`.
-
-2.  Call `usethis::edit_r_environ()`
-
-3.  Add each of your tokens on a new line with the following names:
-    
-    \# ZHweb Datenkataliog Matomo token token\_webzh-dk = “YOUR\_TOKEN”
-    
-    \# opendata.swiss Matomo token token\_openzh = “YOUR\_TOKEN”
-    
-    \# ZHWeb Token token\_webzh = “YOUR\_TOKEN”
-
-4.  Save the .Renviron file
-
-5.  Restart R via “Session -\> Restart R” or “Ctrl / Cmd + Shift +
-    Enter”
+The package currently contains two function: `read_matomo_data()` and
+`set_matomo_server()`.
 
 ## Installation
-
-As the repository is private, you first need to generate a personal
-access token in <https://github.com/settings/tokens>. The token can then
-be added to the .Renviron file.
-
-Follow these steps:
-
-1.  Generate personal access token in
-    <https://github.com/settings/tokens>
-2.  Click “Generate new token”
-3.  Under “Select scopes”, select box “repo”
-4.  Click “Generate token”
-5.  Copy token to clipboard
-6.  Open R and install R Package `usethis` by executing
-    `install.packages("usethis")` in R Console
-7.  Execute `usethis::edit_r_environ()` in R Console
-8.  Copy the GitHub Token into the .Renviron file: GITHUB\_PAT =
-    “YOUR\_TOKEN”
-9.  Save the .Renviron file
-10. Restart R via “Session -\> Restart R” or “Ctrl / Cmd + Shift +
-    Enter”
-11. Go for it:
-
-<!-- end list -->
 
 ``` r
 # install.packages("devtools")
@@ -100,32 +51,56 @@ Try again:
 devtools::install_github("statistikZH/statZHmatomo")
 ```
 
-More info can be found on the help page for
-[`remotes::install_github`](https://remotes.r-lib.org/reference/install_github.html)
-or in the official [GitHub
-documentation](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
-on how to create a personal access token.
+## Prerequisites
+
+Your Matomo API Token needs to be added to the `.Renviron` file before
+the functions can be used. The token is then called via
+`Sys.getenv("token")`. This ensures that tokens are do not need to be
+pasted into scripts.
+
+To add your token, follow these steps:
+
+1.  Install R Package {usethis} by executing
+    `install.packages("usethis")` in R Console.
+
+2.  Execute `usethis::edit_r_environ()` in R Console.
+
+3.  Replace YOUR\_TOKEN with your token. One line per token the
+    following names:
+    
+    \# ZHweb Datenkataliog Matomo token token\_webzh-dk = “YOUR\_TOKEN”
+    
+    \# opendata.swiss Matomo token token\_openzh = “YOUR\_TOKEN”
+    
+    \# ZHWeb Token token\_webzh = “YOUR\_TOKEN”
+
+4.  Save `.Renviron` file via “File -\> Save” or “Ctrl / Cmd + S”
+
+5.  Restart R via “Session -\> Restart R” or “Ctrl / Cmd + Shift +
+    Enter”
 
 ## Example
 
 This is a basic example using the API module ‘Action’ and the API action
-‘getPageUrls’.
+‘getPageUrls’. More detailed information is available in the vignette
+[“Getting
+started”](https://statistikzh.github.io/statZHmatomo/articles/read_matamo_data.html).
 
 ``` r
-
+# Load packages
 library(statZHmatomo)
 library(magrittr)
 
-## Example
-
+# Establish connection to one of the three servers
 con_webzhdk <- set_matomo_server(server = "webzh-dk")
 
+# Store data for yesterday (preset) as object dat
 dat <- read_matomo_data(connection = con_webzhdk,
         apiModule = "Actions", 
         apiAction = "getPageUrls"
         )
         
-
+# Call object dat and produce a table with the first 8 variables
 dat %>% 
   tibble::as_tibble() %>% 
   janitor::clean_names() %>% 
