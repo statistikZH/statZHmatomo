@@ -1,5 +1,5 @@
 ---
-title: "Funktion read_matamo_data"
+title: "Getting started"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{read_matamo_data}
@@ -23,11 +23,13 @@ library(dplyr)
 library(tidyr)
 ```
 
-# Allgemein
+# Getting started
 
-Die Funktion `read_mamatomo_data.R` greift auf die [matomo Reporting API](https://developer.matomo.org/api-reference/reporting-api) zu. Derzeit wurden nur einige Module getestet, jedoch kann die Funktion theoretisch für alle Module genutzt werden. Die Funktion ist noch sehr experimentell und nicht voll durchgetestet. Diese Vignette soll einige Beispiele über die Funktionalität kurz erläutern und mit der Anzeige der Daten im [matomo Dashboard](https://sa.abx-net.net/index.php?module=CoreHome&action=index&idSite=4&period=day&date=yesterday&updated=1#?idSite=4&period=day&date=yesterday&category=Dashboard_Dashboard&subcategory=1) verglichen werden. 
+Diese Vignette beschreibt wie eine Verbindung zu einem der drei verfügbaren Matomo Instanzen aufgebaut werden kann und wie die Daten dann gelesen und genutzt werden können. 
 
-Eine weiter Übersicht der Module befindet sich auch im unter [Administration -> Plattform -> API](https://sa.abx-net.net/index.php?module=API&action=listAllAPI&idSite=1&period=day&date=yesterday).
+Die Funktion `read_mamatomo_data.R` greift auf die [matomo Reporting API](https://developer.matomo.org/api-reference/reporting-api) zu. Bisher ist die Funktion nur für die Hauptmodule getestet, welche sich auch im [matomo Dashboard](https://sa.abx-net.net/index.php?module=CoreHome&action=index&idSite=4&period=day&date=yesterday&updated=1#?idSite=4&period=day&date=yesterday&category=Dashboard_Dashboard&subcategory=1) befinden. Generell kann die Funktion jedoch um Argumente erweitert werden und für jegliche vorhandenen Module genutzt werden.
+
+Eine komplette Übersicht der Module befindet sich auch im unter [Administration -> Plattform -> API](https://sa.abx-net.net/index.php?module=API&action=listAllAPI&idSite=1&period=day&date=yesterday).
 
 # Nutzung
 
@@ -47,21 +49,21 @@ Um `read_matomo_data.R` zu nutzen, muss mittels der Funktion `set_matomot_server
 - Matomo von ZHWeb Daten- und Publikationskatalog: `webzh-dk`
 - Matomo von ZHWeb Allgemein: `webzh`
 
+Folgender Code speichert die Verbindung zum ZHWeb Daten- und Publikationskatalog als Objekt mit dem Namen con_obj ab, welches dann als erstes Argument in `read_matomo_data.R` genutzt wird (siehe unten).
+
 ```{r}
 
 con_obj <- set_matomo_server(server = "webzh-dk")
 
 ```
 
-Das Objekt `con_obj` wird dann als erstes Argument in `read_matomo_data.R` genutzt. Siehe unten.
-
 ## Verhalten -> apiModule: Actions 
 
-Die Kategorie "Verhalten" im matomo Dashboard entspricht dem API module "Actions".
+Die Kategorie "Verhalten (EN: Behaviour)" im matomo Dashboard entspricht dem API module "Actions".
 
 ### Seiten -> apiAction: getPageUrls
 
-Die Übersicht "Seiten" im matomo Dashboard entspricht der API action "getPageUrls"
+Die Übersicht "Seiten (EN: Pages)" im matomo Dashboard entspricht der API action "getPageUrls"
 
 #### Gestern
 
@@ -78,11 +80,43 @@ read_matomo_data(connection = con_obj, apiModule = "Actions", apiAction = "getDo
 
 #### Dieser Monat
 
-```{r}
+```{r, echo=TRUE, eval=FALSE}
+
+## Tag auf aktuellen Tag setzen
+date_this_month <- Sys.Date()
+
+## Für period month auswählen
+read_matomo_data(connection = con_obj, apiModule = "Actions", apiAction = "getPageUrls", date = date_this_month, period = "month") %>% 
+  select(1:4)
+
+```
+
+
+```{r, echo=FALSE}
+
+date_this_month <- Sys.Date()
 
 ## Dieser Monat
 
-read_matomo_data(connection = con_obj, apiModule = "Actions", apiAction = "getPageUrls", date = "2020-09-15", period = "month") %>% 
+read_matomo_data(connection = con_obj, apiModule = "Actions", apiAction = "getPageUrls", date = date_this_month, period = "month") %>% 
+  select(1:4)
+
+
+```
+
+#### Letzter Monat
+
+```{r, echo=TRUE, eval=FALSE}
+
+## Tag auf einen Tag im letzten Monat setzen
+date_last_month <- Sys.Date - 31
+
+## Dieser Monat
+read_matomo_data(connection = con_obj, 
+                 apiModule = "Actions", 
+                 apiAction = "getPageUrls", 
+                 date = date_last_month, 
+                 period = "month") %>% 
   select(1:4) %>% 
   janitor::clean_names() %>% 
   knitr::kable()
@@ -90,16 +124,16 @@ read_matomo_data(connection = con_obj, apiModule = "Actions", apiAction = "getPa
 
 ```
 
-#### Letzter Monat
+```{r, echo=FALSE}
 
-```{r}
+date_last_month <- Sys.Date() - 31
 
 ## Dieser Monat
 
 read_matomo_data(connection = con_obj, 
                  apiModule = "Actions", 
                  apiAction = "getPageUrls", 
-                 date = "2020-08-01", 
+                 date = date_last_month, 
                  period = "month") %>% 
   select(1:4) %>% 
   janitor::clean_names() %>% 
@@ -110,9 +144,22 @@ read_matomo_data(connection = con_obj,
 
 #### Seit ZHWeb Launch
 
-```{r}
+```{r, echo=TRUE, eval=FALSE}
 
-## Dieser Monat
+## Period auf "year" setzen
+
+read_matomo_data(connection = con_obj, 
+                 apiModule = "Actions", 
+                 apiAction = "getPageUrls", 
+                 period = "year") %>% 
+  select(1:4) 
+
+
+```
+
+```{r, echo=FALSE}
+
+## Period auf "year" setzen
 
 read_matomo_data(connection = con_obj, 
                  apiModule = "Actions", 
@@ -146,9 +193,9 @@ listviewer::jsonedit(getPage_json)
 
 ## CustomDimensions
 
-Das Seite hat insgesamt vier konfigurierte Custom Dimensions, welche sich im [Dashboard unter "Verhalten"](https://sa.abx-net.net/index.php?module=CoreHome&action=index&idSite=4&period=day&date=yesterday&updated=1#?idSite=4&period=day&date=yesterday&category=Dashboard_Dashboard&subcategory=1) befinden. 
+Die matomo Instanz des ZHWeb Daten- und Publikationskatalog hat insgesamt fünf konfigurierte Custom Dimensions, welche sich im [Dashboard unter "Verhalten"](https://sa.abx-net.net/index.php?module=CoreHome&action=index&idSite=4&period=day&date=yesterday&updated=1#?idSite=4&period=day&date=yesterday&category=Dashboard_Dashboard&subcategory=1) befinden. 
 
-Für diese Custom Dimensions lassen sich einfach Reports erstellen.
+Für die folgenden Custom Dimensions lassen sich Reports erstellen.
 
 ```{r}
 
@@ -157,7 +204,8 @@ read_matomo_data(connection = con_obj,
                  apiAction = "getConfiguredCustomDimensions", 
                  format = "json") %>% 
   select(-extractions) %>% 
-  as_tibble() %>% 
+  filter(active == TRUE) %>% 
+  as_tibble() %>%  
   knitr::kable()
 
 ```
@@ -242,9 +290,32 @@ custom_dim_downloadURL %>%
 
 ```
 
+### identifier
+
+```{r}
+## Data
+
+custom_dim_identifier <- read_matomo_data(connection = con_obj,
+                                           format = "json",
+                                           apiModule = "CustomDimensions", 
+                                           apiAction = "getCustomDimension", 
+                                           idDimension = 9) %>% 
+  as_tibble()
+
+## Datatable
+
+custom_dim_identifier %>% 
+  select(label, subtable) %>% 
+  tidyr::unnest() %>% 
+  select(1:2, nb_visits, nb_hits) %>% 
+  DT::datatable()
+
+```
+
+
 ## Processed report (API.getProcessedReport)
 
-Für die ausgewählte apiModule und apiAction wird ein kompletter Report mit jeglichen Variablen und dazugehörigem Vokabular zurückgegeben. Sehr nützlich für Dashboards.
+Für das ausgewählte apiModule und apiAction wird ein kompletter Report mit jeglichen Variablen und dazugehörigem Vokabular zurückgegeben. Sehr nützlich für Dashboards.
 
 ```{r}
 
@@ -263,4 +334,3 @@ downloadUrl_processed_report$metadata$metricsDocumentation$nb_visits
 
 ```
 
-- nb_visits: `r downloadUrl_processed_report$metadata$metricsDocumentation$nb_visits`
