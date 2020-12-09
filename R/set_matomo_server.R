@@ -66,7 +66,7 @@ set_matomo_server <- function(
     url = "https://www.myaspectra.ch/webstats/zhw/"
     idSite = "&idSite=112"
   } else if (server == "ftpzh") {
-    url="https://web-analytics-test.labs.abraxas.ch//"
+    url="https://web-analytics-test.labs.abraxas.ch/"
     idSite="&idSite=6"
   }
 
