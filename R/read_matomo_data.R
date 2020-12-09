@@ -85,7 +85,7 @@ read_matomo_data <- function(
 
 ) {
   if(is.null(connection)){
-    stop("Please run conObj<-set_matomo_server(server='openzh|webzh-dk|webzh') and create a connection object first to use as an argument like connection=conObj")
+    stop("Please run conObj <- set_matomo_server(server='openzh|webzh-dk|webzh|ftpzh') and create a connection object first to use as an argument like connection=conObj")
   }
   token_auth<-connection[["token_auth"]]
   url<-connection[["url"]]

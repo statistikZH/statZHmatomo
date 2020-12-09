@@ -39,13 +39,15 @@ set_matomo_server <- function(
   if(is.null(tokenString)){
     if (server == "openzh") {
       token_auth = paste0("&token_auth=", Sys.getenv("token_openzh"))
-    }else if (server == "webzh-dk") {
+    } else if (server == "webzh-dk") {
       token_auth = paste0("&token_auth=", Sys.getenv("token_webzh-dk"))
-    }else if (server == "webzh") {
+    } else if (server == "webzh") {
       token_auth = paste0("&token_auth=", Sys.getenv("token_webzh"))
+    } else if (server == "ftpzh"){
+      token_auth = paste0("&token_auth=", Sys.getenv("token_ftpzh"))
     } else {
 
-      stop("Please specify one of the three supported servers: openzh, webzh-dk or webzh")
+      stop("Please specify one of the three supported servers: openzh, webzh-dk, webzh or ftpzh")
 
     }
   }else{
@@ -56,13 +58,16 @@ set_matomo_server <- function(
   if (server == "openzh") {
     url="https://piwik.opendata.swiss"
     idSite="&idSite=1"
-  }else if (server == "webzh-dk") {
+  } else if (server == "webzh-dk") {
     url = "https://sa.abx-net.net/"
     # id of the website: https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html
     idSite = "&idSite=4"
-  }else if (server == "webzh") {
-    url=""
-    idSite=""
+  } else if (server == "webzh") {
+    url = "https://www.myaspectra.ch/webstats/zhw/"
+    idSite = "idSite=112"
+  } else if (server == "ftpzh") {
+    url="https://web-analytics-test.labs.abraxas.ch//"
+    idSite="idSite=6"
   }
 
   return(list=c(token_auth=token_auth,url=url,idSite=idSite))
