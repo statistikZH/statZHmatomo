@@ -64,10 +64,10 @@ set_matomo_server <- function(
     idSite = "&idSite=4"
   } else if (server == "webzh") {
     url = "https://www.myaspectra.ch/webstats/zhw/"
-    idSite = "idSite=112"
+    idSite = "&idSite=112"
   } else if (server == "ftpzh") {
     url="https://web-analytics-test.labs.abraxas.ch//"
-    idSite="idSite=6"
+    idSite="&idSite=6"
   }
 
   return(list=c(token_auth=token_auth,url=url,idSite=idSite))
