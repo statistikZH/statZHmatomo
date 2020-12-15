@@ -63,7 +63,8 @@ set_matomo_server <- function(
     # id of the website: https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html
     idSite = "&idSite=4"
   } else if (server == "webzh") {
-    url = "https://www.myaspectra.ch/webstats/zhw/index.php"
+    #url = "https://www.myaspectra.ch/webstats/zhw/index.php"
+    url = "https://webstatistik-zhw-api.myaspectra.ch"
     idSite = "&idSite=112"
   } else if (server == "ftpzh") {
     url="https://web-analytics-test.labs.abraxas.ch/"
