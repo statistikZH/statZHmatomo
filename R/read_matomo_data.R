@@ -43,6 +43,7 @@
 #' @param filterLimit A numeric vector to identify the amount of rows to get back. Default is -1, which stands for no limit. (documented in the Matomo API reference).
 #' @param flat A numeric vector 1 or 0 for true or false to set flattened output. Default is NULL (documented in the Matomo API reference).
 #' @param expanded A numeric vector 1 or 0 for true or false to get expanded output. Default is 1 (documented in the Matomo API reference).
+#' @param verbose A logical that prints out the query if activated. Default is FALSE.
 
 
 #'
@@ -89,7 +90,8 @@ read_matomo_data <- function(
   pageTitle=NULL,
   filterLimit=-1,
   flat=NULL,
-  expanded=1
+  expanded=1,
+  verbose=FALSE
 
 ) {
   if(is.null(connection)){
@@ -155,18 +157,18 @@ read_matomo_data <- function(
 
   if (format == "csv") {
 
-    print(query)
+    if(verbose) print(query)
     utils::read.csv(query, encoding = "UTF-8", skipNul = TRUE, check.names = FALSE)
 
   } else if (format == "json") {
 
-    #print(query)
+    if(verbose) print(query)
     jsonlite::fromJSON(txt = url(query, open = "rb"))
 
 
   } else if (format == "xml") {
 
-    #print(query)
+    if(verbose) print(query)
     xml2::read_xml(x = url(query, open = "rb"))
 
   } else {
