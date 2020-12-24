@@ -127,7 +127,7 @@ read_matomo_data <- function(
     query <- paste0(
       url, module, paste0("&method=", method), idSite,
       paste0("&idDimension=", idDimension), filter_limit,
-      paste0("&date=", date), paste0("&period=", period),
+      paste0("&period=", period), paste0("&date=", date),
       expanded, paste0("&format=", format), token_auth
     )
   }
