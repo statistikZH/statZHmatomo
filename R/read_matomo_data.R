@@ -42,7 +42,7 @@
 #' @param pageTitle A character vector to identify the target title of a page. Only required for certain actions (documented in the Matomo API reference).
 #' @param filterLimit A numeric vector to identify the amount of rows to get back. Default is -1, which stands for no limit. (documented in the Matomo API reference).
 #' @param flat A numeric vector 1 or 0 for true or false to set flattened output. Default is NULL (documented in the Matomo API reference).
-#' @param expanded A numeric vector 1 or 0 for true or false to get expanded output. Default is 1 (documented in the Matomo API reference).
+#' @param expanded A numeric vector 1 or 0 for true or false to get expanded output. Default is 1 as required by action module. (documented in the Matomo API reference).
 #' @param verbose A logical that prints out the query if activated. Default is FALSE.
 
 
@@ -116,9 +116,6 @@ read_matomo_data <- function(
 
   filter_limit = paste0("&filter_limit=",filterLimit)
 
-  # set expanded to 1 as needed for Actions Module
-  expanded = paste0("&expanded=",expanded)
-
 
   # methods with different query
 
@@ -140,7 +137,9 @@ read_matomo_data <- function(
       url, module, paste0("&method=", method), idSite,
       paste0("&idDimension=", idDimension), filter_limit,
       paste0("&period=", period), paste0("&date=", date),
-      expanded, ifelse(is.null(flat),"",paste0("&flat=",flat)), paste0("&format=", format), token_auth
+      ifelse(is.null(expanded),"",paste0("&expanded=",expanded)),
+      ifelse(is.null(flat),"",paste0("&flat=",flat)),
+      paste0("&format=", format), token_auth
     )
   }
   #The following adds the parameters pageUrl and idSite if provided
