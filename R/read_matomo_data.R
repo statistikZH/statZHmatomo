@@ -40,6 +40,8 @@
 #' processed_report = TRUE.
 #' @param pageUrl A character vector to identify the target url of a page. Only required for certain actions (documented in the Matomo API reference).
 #' @param pageTitle A character vector to identify the target title of a page. Only required for certain actions (documented in the Matomo API reference).
+#' @param filterLimit A numeric vector to identify the amount of rows to get back. Default is -1, which stands for no limit. (documented in the Matomo API reference).
+
 #'
 #' @return The output will be a data of the selected format
 #' @export
@@ -81,7 +83,8 @@ read_matomo_data <- function(
   processed_report = FALSE,
   idSubtable = NULL,
   pageUrl=NULL,
-  pageTitle=NULL
+  pageTitle=NULL,
+  filterLimit=-1
 
 ) {
   if(is.null(connection)){
@@ -102,8 +105,9 @@ read_matomo_data <- function(
   module = "?module=API"
 
 
-  # set filter_limit to -1 to return all rows
-  filter_limit = "&filter_limit=-1"
+  # set filter_limit to either -1 to return all rows or the selected amount
+
+  filter_limit = paste0("&filter_limit=",filterLimit)
 
   # set expanded to 1 as needed for Actions Module
   expanded = "&expanded=1"
