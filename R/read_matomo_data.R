@@ -140,7 +140,7 @@ read_matomo_data <- function(
       url, module, paste0("&method=", method), idSite,
       paste0("&idDimension=", idDimension), filter_limit,
       paste0("&period=", period), paste0("&date=", date),
-      expanded, paste0("&format=", format), token_auth
+      expanded, ifelse(is.null(flat),"",paste0("&flat=",flat)), paste0("&format=", format), token_auth
     )
   }
   #The following adds the parameters pageUrl and idSite if provided
