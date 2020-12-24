@@ -42,6 +42,8 @@
 #' @param pageTitle A character vector to identify the target title of a page. Only required for certain actions (documented in the Matomo API reference).
 #' @param filterLimit A numeric vector to identify the amount of rows to get back. Default is -1, which stands for no limit. (documented in the Matomo API reference).
 #' @param flat A numeric vector 1 or 0 for true or false to set flattened output. Default is NULL (documented in the Matomo API reference).
+#' @param expanded A numeric vector 1 or 0 for true or false to get expanded output. Default is 1 (documented in the Matomo API reference).
+
 
 #'
 #' @return The output will be a data of the selected format
@@ -86,7 +88,8 @@ read_matomo_data <- function(
   pageUrl=NULL,
   pageTitle=NULL,
   filterLimit=-1,
-  flat=NULL
+  flat=NULL,
+  expanded=1
 
 ) {
   if(is.null(connection)){
@@ -112,7 +115,7 @@ read_matomo_data <- function(
   filter_limit = paste0("&filter_limit=",filterLimit)
 
   # set expanded to 1 as needed for Actions Module
-  expanded = "&expanded=1"
+  expanded = paste0("&expanded=",expanded)
 
 
   # methods with different query
