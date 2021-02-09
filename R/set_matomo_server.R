@@ -9,7 +9,8 @@
 #' Set Connection to Matomo API
 #' @description \code{set_matomo_server} This command is required to set the specifications to connect to the server
 #' @param server A character vector specifying which server to access. Currently it supports
-#' the three possibilities openzh (the open data websites), webzh-dk (the data catalogue of webzh) and webzh (the websites of webzh). By default it will access webzh-dk if nothign was provided.
+#' the four standard possibilities openzh (the open data websites), webzh-dk (the data catalogue of webzh), webzh (the websites of webzh), and ftpzh.
+#' If nne of those is given, it expects another server in the form of url.server.com&idSite=33
 #'
 #' @param tokenString A character vector specifying which token to access. It is an optional argument overriding the default strings. These are token_openzh, token_webzh-dk and token_webzh.
 #'
@@ -47,10 +48,12 @@ set_matomo_server <- function(
       token_auth = paste0("&token_auth=", Sys.getenv("token_ftpzh"))
     } else {
 
-      stop("Please specify one of the three supported servers: openzh, webzh-dk, webzh or ftpzh")
+
+      stop("Please specify either one of the supported servers: openzh, webzh-dk, webzh or ftpzh, or provide as well a different tokenString")
 
     }
   }else{
+    print(paste0("token_auth given. Assuming that, ",server, " is a url with idSite"))
     token_auth = paste0("&token_auth=", Sys.getenv(tokenString))
   }
 
@@ -70,6 +73,9 @@ set_matomo_server <- function(
   } else if (server == "ftpzh") {
     url="https://web-analytics-test.labs.abraxas.ch/"
     idSite="&idSite=6"
+  }else{
+    url<-strsplit(server,"&idSite")[[1]][1]
+    idSite=paste0("&idSite",strsplit(server,"&idSite")[[1]][2])
   }
 
   return(list=c(token_auth=token_auth,url=url,idSite=idSite))
