@@ -112,7 +112,7 @@ read_matomo_data <- function(
   module = "?module=API"
 
 
-  # set filter_limit to either -1 to return all rows or the selected amount
+  # set filter_limit to either -1 to return all rows or the selected filter limit
 
   filter_limit = paste0("&filter_limit=",filterLimit)
 
