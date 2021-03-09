@@ -164,9 +164,9 @@ read_matomo_data <- function(
 
     if(verbose) print(query)
     connection<-url(query,open="rb")
-    jsonlite::fromJSON(txt = connection)
+    out<-jsonlite::fromJSON(txt = connection)
     close(connection)
-
+    return(out)
 
   } else if (format == "xml") {
 
