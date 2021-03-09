@@ -167,7 +167,7 @@ read_matomo_data <- function(
     #out<-jsonlite::fromJSON(txt = connection)
     #close(connection)
     #return(out)
-    jsonlite::stream_in(connection)
+    jsonlite::stream_in(connection,verbose=FALSE)
 
   } else if (format == "xml") {
 
