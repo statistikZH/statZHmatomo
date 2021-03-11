@@ -40,6 +40,7 @@
 #' processed_report = TRUE.
 #' @param pageUrl A character vector to identify the target url of a page. Only required for certain actions (documented in the Matomo API reference).
 #' @param pageTitle A character vector to identify the target title of a page. Only required for certain actions (documented in the Matomo API reference).
+#' @param segment A character vector to identify the segment of a page. Only required for certain actions (documented in the Matomo API reference).
 #' @param filterLimit A numeric vector to identify the amount of rows to get back. Default is -1, which stands for no limit. (documented in the Matomo API reference).
 #' @param flat A numeric vector 1 or 0 for true or false to set flattened output. Default is NULL (documented in the Matomo API reference).
 #' @param expanded A numeric vector 1 or 0 for true or false to get expanded output. Default is 1 as required by action module. (documented in the Matomo API reference).
@@ -88,6 +89,7 @@ read_matomo_data <- function(
   idSubtable = NULL,
   pageUrl=NULL,
   pageTitle=NULL,
+  segment=NULL,
   filterLimit=-1,
   flat=NULL,
   expanded=1,
@@ -150,6 +152,9 @@ read_matomo_data <- function(
   if (!is.null(pageTitle)){
     query <- paste0(query,"&pageTitle=",pageTitle)
   }
+  if (!is.null(segment)){
+    query <- paste0(query,"&segment=",segment)
+  }
 
 
   # build query
@@ -163,12 +168,12 @@ read_matomo_data <- function(
   } else if (format == "json") {
 
     if(verbose) print(query)
-    jsonlite::fromJSON(txt = url(query,open="rb"))
+    #jsonlite::fromJSON(txt = url(query,open="rb"))
     #connection<-url(query,open="rb")
     #out<-jsonlite::fromJSON(txt = connection)
     #close(connection)
     #return(out)
-    #jsonlite::stream_in(connection,verbose=FALSE)
+    jsonlite::stream_in(connection,verbose=verbose)
 
   } else if (format == "xml") {
 
