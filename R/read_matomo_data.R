@@ -169,7 +169,7 @@ read_matomo_data <- function(
 
     if(verbose) print(query)
     #jsonlite::fromJSON(txt = url(query,open="rb"))
-    #connection<-url(query,open="rb")
+    connection<-url(query,open="rb")
     #out<-jsonlite::fromJSON(txt = connection)
     #close(connection)
     #return(out)
