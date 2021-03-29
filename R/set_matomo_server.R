@@ -59,7 +59,7 @@ set_matomo_server <- function(
 
   #set the basic urls and the idSites according to the chosen server
   if (server == "openzh") {
-    url="https://piwik.opendata.swiss"
+    url="https://opendata.opsone-analytics.ch"
     idSite="&idSite=1"
   } else if (server == "webzh-dk") {
     url = "https://sa.abx-net.net/"
