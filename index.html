@@ -124,10 +124,10 @@
 <div id="prerequisites" class="section level2">
 <h2 class="hasAnchor">
 <a href="#prerequisites" class="anchor"></a>Prerequisites</h2>
-<p>Your Matomo API Token needs to be added to the <code>.Renviron</code> file before the functions can be used. The token is then called via <code><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv("token")</a></code>. This ensures that tokens are do not need to be pasted into scripts.</p>
+<p>Your Matomo API Token needs to be added to the <code>.Renviron</code> file before the functions can be used. The token is then called via <code>Sys.getenv("token")</code>. This ensures that tokens are do not need to be pasted into scripts.</p>
 <p>To add your token, follow these steps:</p>
 <ol>
-<li><p>Install R Package {usethis} by executing <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("usethis")</a></code> in R Console.</p></li>
+<li><p>Install R Package {usethis} by executing <code>install.packages("usethis")</code> in R Console.</p></li>
 <li><p>Execute <code>usethis::edit_r_environ()</code> in R Console.</p></li>
 <li>
 <p>Replace YOUR_TOKEN with your token. One line per token the following names:</p>
@@ -161,10 +161,10 @@ token_webzh = “YOUR_TOKEN”</p>
         <span class="op">)</span>
         
 <span class="co"># Call object dat and produce a table with the first 8 variables</span>
-<span class="va">dat</span> <span class="op">%&gt;%</span> 
-  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">janitor</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/janitor/man/clean_names.html">clean_names</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu">janitor</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/janitor/man/clean_names.html">clean_names</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
