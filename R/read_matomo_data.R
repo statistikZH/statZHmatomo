@@ -163,7 +163,7 @@ read_matomo_data <- function(
   if (format == "csv") {
 
     if(verbose) print(query)
-    utils::read.csv(query, encoding = "UTF-8", skipNul = TRUE, check.names = FALSE)
+    utils::read.csv(query, fileEncoding = "UTF-16", sep = ",", skipNul = TRUE, check.names = FALSE)
 
   } else if (format == "json") {
 
