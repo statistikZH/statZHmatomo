@@ -64,7 +64,7 @@ set_matomo_server <- function(
   } else if (server == "webzh-dk") {
     url = "https://sa.abx-net.net/"
     # id of the website: https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html
-    idSite = "&idSite=4"
+    idSite = "&idSite=13"
   } else if (server == "webzh") {
     #url = "https://www.myaspectra.ch/webstats/zhw/index.php"
     #url = "https://webstatistik-zhw-api.myaspectra.ch"
